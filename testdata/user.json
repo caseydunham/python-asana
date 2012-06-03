@@ -1,0 +1,16 @@
+{
+	"data":{
+		"id":1234,
+		"name":"Tim Bizarro",
+		"email":"tbizarro@example.com",
+		"workspaces":[
+			{
+				"id":1337,
+				"name":"My Favorite Workspace"
+			},
+			{
+				"id":7777,
+				"name":"Sandbox"
+			}
+		]
+	}}

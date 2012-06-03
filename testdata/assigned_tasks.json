@@ -1,0 +1,178 @@
+{"data":[
+	{
+		"id":980391206251,
+		"name":"setup docs.bluetarp.com in dns"
+	},
+	{
+		"id":980391206255,
+		"name":"check on changing the from email address that docusign uses"
+	},
+	{
+		"id":980391206256,
+		"name":"add ability to change the subject / body message on a per request basis"
+	},
+	{
+		"id":980391206259,
+		"name":"lookup by application id in bits"
+	},
+	{
+		"id":980391206247,
+		"name":"free form fields for non-autofilled data"
+	},
+	{
+		"id":964798959222,
+		"name":"handle the prod / demo API endpoints"
+	},
+	{
+		"id":838111724998,
+		"name":"support for multiple docusign accounts and account authorizations"
+	},
+	{
+		"id":919426769966,
+		"name":"timestamps in audit are in docusign timezone"
+	},
+	{
+		"id":682975985913,
+		"name":"get sub account list from Jon, create demo accounts"
+	},
+	{
+		"id":623076661968,
+		"name":"Update auth doc for minor schema changes"
+	},
+	{
+		"id":633528295748,
+		"name":"setup for retrieving updates from DocuSign Connect"
+	},
+	{
+		"id":914755260477,
+		"name":"Update BITS to call dbo.bt_get_card_emboss_type_id  to set the card emboss type when requesting a card."
+	},
+	{
+		"id":964798959225,
+		"name":"force comment when voiding an esign request"
+	},
+	{
+		"id":481906631009,
+		"name":"consumer client id (terminal name) and transaction id are not persisted"
+	},
+	{
+		"id":499441521319,
+		"name":"create a python / c# demo client?"
+	},
+	{
+		"id":484828337661,
+		"name":"lookup api only ever needs to return the last 4 of card number"
+	},
+	{
+		"id":497266268882,
+		"name":"combine the Card / Purchaser and Customer resource?? They return the same thing"
+	},
+	{
+		"id":484828337627,
+		"name":"registration service needs to validate against the xsd"
+	},
+	{
+		"id":484828337637,
+		"name":"authorization service needs to properly handle duplicate transaction-ids"
+	},
+	{
+		"id":511316214755,
+		"name":"test case document for auth service"
+	},
+	{
+		"id":462519453026,
+		"name":"update command line client"
+	},
+	{
+		"id":220233185691,
+		"name":"overview of fields and what is being written to them"
+	},
+	{
+		"id":462519453028,
+		"name":"other avenues of testing"
+	},
+	{
+		"id":601064149628,
+		"name":"User creating notes in bits"
+	},
+	{
+		"id":453765047675,
+		"name":""
+	},
+	{
+		"id":220233185686,
+		"name":"auth service should handle client retries gracefully"
+	},
+	{
+		"id":220233185681,
+		"name":"remove URL from update response"
+	},
+	{
+		"id":220233185679,
+		"name":"option to force an update from client"
+	},
+	{
+		"id":220233185677,
+		"name":"services should expect a date header to use for handling replays"
+	},
+	{
+		"id":220233185673,
+		"name":"custom user agent"
+	},
+	{
+		"id":220233185663,
+		"name":"update bt_version table for better deployment support"
+	},
+	{
+		"id":595448277461,
+		"name":"Standardize Transaction Detail Component"
+	},
+	{
+		"id":624718845462,
+		"name":"Update service docs for new resource URLs for bas-lookup"
+	},
+	{
+		"id":673284989912,
+		"name":"Check for API rate limits"
+	},
+	{
+		"id":682975985915,
+		"name":"brand the emails using the downloadable email resource file"
+	},
+	{
+		"id":692340560127,
+		"name":"Audit Event Schema"
+	},
+	{
+		"id":823627545884,
+		"name":"add version information to start up (build info etc)"
+	},
+	{
+		"id":823627545882,
+		"name":"refactor to use Mina for socket connections"
+	},
+	{
+		"id":964798959253,
+		"name":"create a docusign-demo email address at bluetarp"
+	},
+	{
+		"id":980391206242,
+		"name":"force comment when voiding esig request"
+	},
+	{
+		"id":980391206236,
+		"name":"add privs for modifying the consent type"
+	},
+	{
+		"id":980391206233,
+		"name":"post commit hook for svn"
+	},
+	{
+		"id":980391206286,
+		"name":"ability to view all the documents for all programs / accounts in a central place in bits / bats"
+	},
+	{
+		"id":980391206303,
+		"name":"need to change the CVV check to still pass the authorization to the database"
+	}
+]}

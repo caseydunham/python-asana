@@ -1,0 +1,18 @@
+{"data":{
+	"id":14641,
+	"created_at":"2012-06-02T21:17:53.688Z",
+	"modified_at":"2012-06-02T21:49:52.133Z",
+	"name":"Cat stuff",
+	"notes":"",
+	"archived":false,
+	"workspace":{
+		"id":652055725497,
+		"name":"Sandbox"
+	},
+	"followers":[
+		{
+			"id":200068226962,
+			"name":"Casey"
+		}
+	]
+}}
