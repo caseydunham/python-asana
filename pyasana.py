@@ -21,6 +21,7 @@ __version__ = '0.0.1-devel'
 import urllib2
 import urlparse
 import json
+import base64
 
 from urllib import urlencode
 
@@ -572,7 +573,8 @@ class Api(object):
 
     def _add_authorization_header(self, apikey=None):
         if apikey:
-            self._request_headers["Authorization"] = "Bearer %s" % apikey
+            authorization = "%s:" % apikey
+            self._request_headers["Authorization"] = "Basic %s" % base64.b64encode(authorization)
 
     def _get_opener(self, url, apikey=None):
         if not apikey:
