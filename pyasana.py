@@ -338,6 +338,8 @@ class Task(object):
             task.name = data["name"]
         if "created_at" in data:
             task.created_at = data["created_at"]
+        if "assignee" in data:
+            task.assignee = User.new_from_json(data["assignee"])
         if "completed" in data:
             task.completed = data["completed"]
         if "completed_at" in data:
