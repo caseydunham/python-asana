@@ -1,17 +1,23 @@
 """
 Copyright (c) 2012 Casey Dunham <casey.dunham@gmail.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of 
+this software and associated documentation files (the "Software"), to deal in 
+the Software without restriction, including without limitation the rights to 
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of 
+the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
 """
 
 __author__ = 'casey.dunham@gmail.com'
@@ -32,15 +38,26 @@ class AsanaError(Exception):
     def message(self):
         return self.args[0]
 
-
-class User(object):
-
-    def __init__(self, id=None, name=None, email=None, workspaces=None):
+class AsanaObject(object):
+    def __init__(self, id=None, name=None):
         self.id = id
         self.name = name
-        self.email = email
-        self.workspaces = workspaces
+     
+    def __str__(self):
+        return self.name
+    
+    def __hash__(self):
+        return hash(self.name)
+    
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.name == other.name
+        else:
+            return False
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    
     @property
     def id(self):
         return self._id
@@ -56,6 +73,13 @@ class User(object):
     @name.setter
     def name(self, value):
         self._name = value
+
+class User(AsanaObject):
+
+    def __init__(self, id=None, name=None, email=None, workspaces=None):
+        super(User, self).__init__(id, name)
+        self.email = email
+        self.workspaces = workspaces
 
     @property
     def email(self):
@@ -87,34 +111,17 @@ class User(object):
         return user
 
 
-class Project(object):
+class Project(AsanaObject):
 
-    def __init__(self, id=None, name=None, created_at=None, modified_at=None, notes=None,
-                 archived=None, workspace=None, followers=None):
-        self.id = id
-        self.name = name
+    def __init__(self, id=None, name=None, created_at=None, modified_at=None,
+                 notes=None, archived=None, workspace=None, followers=None):
+        super(Project, self).__init__(id, name)
         self.created_at = created_at
         self.modified_at = modified_at
         self.notes = notes
         self.archived = archived
         self.workspace = workspace
         self.followers = followers
-
-    @property
-    def id(self):
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        self._id = value
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        self._name = value
 
     @property
     def created_at(self):
@@ -184,27 +191,10 @@ class Project(object):
         return project
 
 
-class Workspace(object):
+class Workspace(AsanaObject):
 
     def __init__(self, id=None, name=None):
-        self.id = id
-        self.name = name
-
-    @property
-    def id(self):
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        self._id = value
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        self._name = value
+        super(Workspace, self).__init__(id, name)
 
     @staticmethod
     def new_from_json(data):
@@ -216,31 +206,22 @@ class Workspace(object):
         return workspace
 
 
-class Task(object):
+class Task(AsanaObject):
 
-    def __init__(self, id=None, assignee=None, created_at=None, completed=None, completed_at=None,
-                 followers=None, modified_at=None, name=None, notes=None, projects=None,
-                 assignee_status=None, workspace=None):
-        self.id = id
+    def __init__(self, id=None, assignee=None, created_at=None, completed=None,
+                 completed_at=None, followers=None, modified_at=None, name=None,
+                 notes=None, projects=None, assignee_status=None, workspace=None):
+        super(Task, self).__init__(id, name)
         self.assignee = assignee
         self.created_at = created_at
         self.completed = completed
         self.completed_at = completed_at
         self.followers = followers
         self.modified_at = modified_at
-        self.name = name
         self.notes = notes
         self.projects = projects
         self.assignee_status = assignee_status
         self.workspace = workspace
-
-    @property
-    def id(self):
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        self._id = value
 
     @property
     def assignee(self):
@@ -289,14 +270,6 @@ class Task(object):
     @modified_at.setter
     def modified_at(self, value):
         self._modified_at = value
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        self._name = value
 
     @property
     def notes(self):
@@ -360,10 +333,10 @@ class Task(object):
         return task
 
 
-class Story(object):
+class Story(AsanaObject):
 
-    def __init__(self, id=None, created_at=None, type=None, text=None, created_by=None,
-                 target=None, source=None):
+    def __init__(self, id=None, created_at=None, type=None, text=None,
+                 created_by=None, target=None, source=None):
         self.id = id
         self.created_at = created_at
         self.type = type
@@ -455,6 +428,9 @@ class Api(object):
         self.urllib = urllib2
         self._init_request_headers()
 
+    def __str__(self):
+        return self.apikey
+ 
     @property
     def apikey(self):
         return self._apikey
