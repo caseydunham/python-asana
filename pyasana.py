@@ -38,7 +38,7 @@ class throttle(object):
         self.api_limit = 100 #api_limit
         self.count = self.api_limit
             
-    def __call__(self, instance, owner, *args, **kwargs):
+    def __get__(self, instance, owner, *args, **kwargs):
         def decorated_fun(*args, **kwargs):
             if self.api_limit != -1:
                 self.count -= 1
