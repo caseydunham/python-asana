@@ -20,17 +20,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__author__ = 'casey.dunham@gmail.com'
-__version__ = '0.0.1-devel'
+__author__ = ['casey.dunham@gmail.com', 'dvanliere@wikimedia.org']
+__version__ = '0.0.2-devel'
 
 
 import urllib2
 import urlparse
 import json
 import base64
+import time
 
 from urllib import urlencode
 
+class throttle(object):
+    def __init__(self, api_function):
+        self.api_function = api_function
+        self.api_limit = 100 #api_limit
+        self.count = self.api_limit
+            
+    def __call__(self, instance, owner, *args, **kwargs):
+        def decorated_fun(*args, **kwargs):
+            if self.api_limit != -1:
+                self.count -= 1
+                if self.count == 0:
+                    time.sleep(60)
+                    self.count = self.api_limit
+            return self.api_function(instance, *args, **kwargs)
+        return decorated_fun
 
 class AsanaError(Exception):
 
@@ -423,9 +439,10 @@ class Story(AsanaObject):
 
 class Api(object):
 
-    def __init__(self, apikey=None):
+    def __init__(self, apikey=None, api_limit=100):
         self.apikey = apikey
         self.urllib = urllib2
+        self.api_limit = api_limit  # if set to -1 then do not throttle
         self._init_request_headers()
 
     def __str__(self):
@@ -523,6 +540,7 @@ class Api(object):
         data = json.loads(json_data)
         return Story.new_from_json(data["data"])
 
+    @throttle
     def _fetch_url(self, url, post_data=None, parameters=None):
         url = self._build_url(url, parameters)
         opener = self._get_opener(url, self.apikey)
