@@ -2,7 +2,10 @@
 
 _A python wrapper around the Asana (asana.com) API_
 
-Author: *Casey Dunham <casey.dunham@google.com>*
+Authors:
+
+Casey Dunham <casey.dunham@google.com>
+Diederik van Liere <dvanliere@wikimedia.org>
 
 ##Introduction##
 

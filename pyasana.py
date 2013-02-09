@@ -1,22 +1,22 @@
 """
 Copyright (c) 2012 Casey Dunham <casey.dunham@gmail.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of 
-the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all 
+The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
@@ -32,12 +32,13 @@ import time
 
 from urllib import urlencode
 
+
 class throttle(object):
     def __init__(self, api_function):
         self.api_function = api_function
         self.api_limit = 100 #api_limit
         self.count = self.api_limit
-            
+
     def __get__(self, instance, owner, *args, **kwargs):
         def decorated_fun(*args, **kwargs):
             if self.api_limit != -1:
@@ -48,23 +49,26 @@ class throttle(object):
             return self.api_function(instance, *args, **kwargs)
         return decorated_fun
 
+
 class AsanaError(Exception):
 
     @property
     def message(self):
         return self.args[0]
 
+
 class AsanaObject(object):
+
     def __init__(self, id=None, name=None):
         self.id = id
         self.name = name
-     
+
     def __str__(self):
         return self.name
-    
+
     def __hash__(self):
         return hash(self.name)
-    
+
     def __eq__(self, other):
         if type(other) is type(self):
             return self.name == other.name
@@ -73,7 +77,7 @@ class AsanaObject(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
-    
+
     @property
     def id(self):
         return self._id
@@ -89,6 +93,7 @@ class AsanaObject(object):
     @name.setter
     def name(self, value):
         self._name = value
+
 
 class User(AsanaObject):
 
@@ -447,7 +452,7 @@ class Api(object):
 
     def __str__(self):
         return self.apikey
- 
+
     @property
     def apikey(self):
         return self._apikey
