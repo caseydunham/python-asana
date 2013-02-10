@@ -32,6 +32,7 @@ API_KEY = "1234abcd"
 
 class ApiTest(unittest.TestCase):
 
+
     def setUp(self):
         self._urllib = MockUrllib()
         api = pyasana.Api()
@@ -203,13 +204,3 @@ class MockOpener(object):
             return self._handlers[url]()
         else:
             raise Exception("Unexpected URL %s" % url)
-
-
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTests(unittest.makeSuite(ApiTest))
-    return suite
-
-
-if __name__ == '__main__':
-    unittest.main()
