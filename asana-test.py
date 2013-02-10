@@ -82,6 +82,15 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(2, len(projects))
         self.assertEqual(99982, projects[0].id)
 
+    def testCreateProject(self):
+        partial = functools.partial(self._openTestData, "create_project.json")
+        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/projects", partial)
+        workspace = pyasana.Workspace()
+        workspace.id = 498346170860
+        project = self._api.create_project(workspace, "api test project")
+        self.assertEqual(4018163373477, project.id)
+        self.assertEqual("api test project", project.name)
+
     def testGetTasksFromProject(self):
         projectid = 9876
         partial = functools.partial(self._openTestData, "tasks.json")

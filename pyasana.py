@@ -21,9 +21,10 @@ SOFTWARE.
 """
 
 __author__ = ['casey.dunham@gmail.com', 'dvanliere@wikimedia.org']
-__version__ = '0.0.2-devel'
+__version__ = '0.0.3-devel'
 
 
+import urllib
 import urllib2
 import urlparse
 import json
@@ -484,6 +485,13 @@ class Api(object):
         data = json.loads(json_data)
         return [Project.new_from_json(x) for x in data["data"]]
 
+    def create_project(self, workspace, name):
+        url = "https://app.asana.com/-/api/0.1/projects"
+        post_data = {"name": name, "workspace": workspace.id}
+        json_data = self._fetch_url(url, urllib.urlencode(post_data))
+        data = json.loads(json_data)
+        return Project.new_from_json(data["data"])
+
     def get_project(self, project):
         url = "https://app.asana.com/-/api/0.1/projects/%s" % project
         json_data = self._fetch_url(url)
@@ -549,7 +557,7 @@ class Api(object):
     def _fetch_url(self, url, post_data=None, parameters=None):
         url = self._build_url(url, parameters)
         opener = self._get_opener(url, self.apikey)
-        data = opener.open(url).read()
+        data = opener.open(url, post_data).read()
         return data
 
     def _build_url(self, url, parameters=None):
