@@ -445,6 +445,8 @@ class Story(AsanaObject):
 
 class Api(object):
 
+    API_BASE = "https://app.asana.com/api/1.0"
+
     def __init__(self, apikey=None, api_limit=100):
         self.apikey = apikey
         self.urllib = urllib2
@@ -471,41 +473,41 @@ class Api(object):
         self._urllib = value
 
     def get_workspaces(self):
-        url = "https://app.asana.com/-/api/0.1/workspaces"
+        url = "%s/%s" % (self.API_BASE, "workspaces")
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return [Workspace.new_from_json(x) for x in data["data"]]
 
     def get_projects(self, workspace=None):
         if workspace:
-            url = "https://app.asana.com/-/api/0.1/workspaces/%s/projects" % workspace
+            url = "%s/workspaces/%s/projects" % (self.API_BASE, workspace)
         else:
-            url = "https://app.asana.com/-/api/0.1/projects"
+            url = "%s/projects" % self.API_BASE
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return [Project.new_from_json(x) for x in data["data"]]
 
     def create_project(self, workspace, name):
-        url = "https://app.asana.com/-/api/0.1/projects"
+        url = "%s/projects" % self.API_BASE
         post_data = {"name": name, "workspace": workspace.id}
         json_data = self._fetch_url(url, urllib.urlencode(post_data))
         data = json.loads(json_data)
         return Project.new_from_json(data["data"])
 
     def get_project(self, project):
-        url = "https://app.asana.com/-/api/0.1/projects/%s" % project
+        url = "%s/projects/%s" % (self.API_BASE, project)
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return Project.new_from_json(data["data"])
 
     def get_users(self):
-        url = "https://app.asana.com/-/api/0.1/users?opt_fields=name,email,workspaces"
+        url = "%s/users?opt_fields=name,email,workspaces" % self.API_BASE
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return [User.new_from_json(x) for x in data["data"]]
 
     def get_user(self, userid=None):
-        url = "https://app.asana.com/-/api/0.1/users/%s" % userid
+        url = "%s/users/%s" % (self.API_BASE, userid)
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return User.new_from_json(data["data"])
@@ -530,25 +532,25 @@ class Api(object):
             if workspace is None and project is None:
                 raise AsanaError("Need to specify a workspace or project")
 
-        url = "https://app.asana.com/-/api/0.1/tasks"
+        url = "%s/tasks" % self.API_BASE
         json_data = self._fetch_url(url, parameters=params)
         data = json.loads(json_data)
         return [Task.new_from_json(x) for x in data["data"]]
 
     def get_task(self, taskid):
-        url = "https://app.asana.com/-/api/0.1/tasks/%s" % taskid
+        url = "%s/tasks/%s" % (self.API_BASE, taskid)
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return Task.new_from_json(data["data"])
 
     def get_stories(self, taskid):
-        url = "https://app.asana.com/-/api/0.1/tasks/%s/stories" % taskid
+        url = "%s/tasks/%s/stories" % (self.API_BASE, taskid)
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return [Story.new_from_json(x) for x in data["data"]]
 
     def get_story(self, storyid):
-        url = "https://app.asana.com/-/api/0.1/stories/%s" % storyid
+        url = "%s/stories/%s" % (self.API_BASE, storyid)
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return Story.new_from_json(data["data"])

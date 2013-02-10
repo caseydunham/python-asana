@@ -41,13 +41,15 @@ class ApiTest(unittest.TestCase):
 
     def testGetWorkspaces(self):
         partial = functools.partial(self._openTestData, "workspaces.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/workspaces", partial)
+        url = "%s/workspaces" % self._api.API_BASE
+        self._urllib.AddHandler(url, partial)
         workspaces = self._api.get_workspaces()
         self.assertEqual(1, len(workspaces))
 
     def testGetUsers(self):
         partial = functools.partial(self._openTestData, "users.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/users?opt_fields=name,email,workspaces", partial)
+        url = "%s/users?opt_fields=name,email,workspaces" % self._api.API_BASE
+        self._urllib.AddHandler(url, partial)
         users = self._api.get_users()
         self.assertEqual(2, len(users))
         self.assertEqual(1, len(users[0].workspaces))
@@ -55,21 +57,24 @@ class ApiTest(unittest.TestCase):
     def testGetUser(self):
         userid = 1234
         partial = functools.partial(self._openTestData, "user.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/users/%s" % userid, partial)
+        url = "%s/users/%s" % (self._api.API_BASE, userid)
+        self._urllib.AddHandler(url, partial)
         user = self._api.get_user(userid)
         self.assertEquals(userid, user.id)
         self.assertEquals(2, len(user.workspaces))
 
     def testGetProjects(self):
         partial = functools.partial(self._openTestData, "projects.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/projects", partial)
+        url = "%s/projects" % self._api.API_BASE
+        self._urllib.AddHandler(url, partial)
         projects = self._api.get_projects()
         self.assertEqual(2, len(projects))
 
     def testGetProjectDetail(self):
         project = 14641
         partial = functools.partial(self._openTestData, "project_detail.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/projects/%s" % project, partial)
+        url = "%s/projects/%s" % (self._api.API_BASE, project)
+        self._urllib.AddHandler(url, partial)
         project = self._api.get_project(project)
         self.assertTrue(project.workspace)
         self.assertEqual(652055725497, project.workspace.id)
@@ -77,14 +82,16 @@ class ApiTest(unittest.TestCase):
     def testGerProjectsByWorkspace(self):
         workspace = 15
         partial = functools.partial(self._openTestData, "projects_for_workspace.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/workspaces/%s/projects" % workspace, partial)
+        url = "%s/workspaces/%s/projects" % (self._api.API_BASE, workspace)
+        self._urllib.AddHandler(url, partial)
         projects = self._api.get_projects(workspace)
         self.assertEqual(2, len(projects))
         self.assertEqual(99982, projects[0].id)
 
     def testCreateProject(self):
         partial = functools.partial(self._openTestData, "create_project.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/projects", partial)
+        url = "%s/projects" % self._api.API_BASE
+        self._urllib.AddHandler(url, partial)
         workspace = pyasana.Workspace()
         workspace.id = 498346170860
         project = self._api.create_project(workspace, "api test project")
@@ -94,7 +101,8 @@ class ApiTest(unittest.TestCase):
     def testGetTasksFromProject(self):
         projectid = 9876
         partial = functools.partial(self._openTestData, "tasks.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/tasks?project=%s" % projectid, partial)
+        url = "%s/tasks?project=%s" % (self._api.API_BASE, projectid)
+        self._urllib.AddHandler(url, partial)
         tasks = self._api.get_tasks(projectid)
         self.assertEqual(2, len(tasks))
         self.assertEqual(1248, tasks[0].id)
@@ -103,7 +111,7 @@ class ApiTest(unittest.TestCase):
         workspace = 5678
         assignee = 1234
         partial = functools.partial(self._openTestData, "tasks.json")
-        url = "https://app.asana.com/-/api/0.1/tasks?assignee=%s&workspace=%s" % (assignee, workspace)
+        url = "%s/tasks?assignee=%s&workspace=%s" % (self._api.API_BASE, assignee, workspace)
         self._urllib.AddHandler(url, partial)
         tasks = self._api.get_tasks(assignee=assignee, workspace=workspace)
         self.assertEqual(2, len(tasks))
@@ -112,7 +120,7 @@ class ApiTest(unittest.TestCase):
         project = 1337
         workspace = 5678
         partial = functools.partial(self._openTestData, "tasks.json")
-        url = "https://app.asana.com/-/api/0.1/tasks?project=%s&workspace=%s" % (project, workspace)
+        url = "%s/tasks?project=%s&workspace=%s" % (self._api.API_BASE, project, workspace)
         self._urllib.AddHandler(url, partial)
         tasks = self._api.get_tasks(workspace=workspace, project=project)
         self.assertEqual(2, len(tasks))
@@ -121,7 +129,7 @@ class ApiTest(unittest.TestCase):
         assignee = 1234
         workspace = 5678
         partial = functools.partial(self._openTestData, "tasks.json")
-        url = "https://app.asana.com/-/api/0.1/tasks?assignee=%s&workspace=%s" % (assignee, workspace)
+        url = "%s/tasks?assignee=%s&workspace=%s" % (self._api.API_BASE, assignee, workspace)
         self._urllib.AddHandler(url, partial)
         tasks = self._api.get_tasks(assignee=assignee, workspace=workspace)
         self.assertEqual(2, len(tasks))
@@ -130,7 +138,7 @@ class ApiTest(unittest.TestCase):
         assignee = 1234
         project = 1337
         partial = functools.partial(self._openTestData, "tasks.json")
-        url = "https://app.asana.com/-/api/0.1/tasks?project=%s&assignee=%s" % (project, assignee)
+        url = "%s/tasks?project=%s&assignee=%s" % (self._api.API_BASE, project, assignee)
         self._urllib.AddHandler(url, partial)
         tasks = self._api.get_tasks(project=project, assignee=assignee)
         self.assertEqual(2, len(tasks))
@@ -138,7 +146,8 @@ class ApiTest(unittest.TestCase):
     def testGetTask(self):
         taskid = 24816
         partial = functools.partial(self._openTestData, "task_detail.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/tasks/%s" % taskid, partial)
+        url = "%s/tasks/%s" % (self._api.API_BASE, taskid)
+        self._urllib.AddHandler(url, partial)
         task = self._api.get_task(taskid)
         self.assertEqual(taskid, task.id)
         self.assertEquals("2012-05-07T16:55:37.362Z", task.created_at)
@@ -148,14 +157,16 @@ class ApiTest(unittest.TestCase):
     def testGetStories(self):
         task = 24816
         partial = functools.partial(self._openTestData, "stories.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/tasks/%s/stories" % task, partial)
+        url = "%s/tasks/%s/stories" % (self._api.API_BASE, task)
+        self._urllib.AddHandler(url, partial)
         stories = self._api.get_stories(task)
         self.assertEquals(5, len(stories))
 
     def testGetStoryDetail(self):
         story = 993441745509
         partial = functools.partial(self._openTestData, "story_detail.json")
-        self._urllib.AddHandler("https://app.asana.com/-/api/0.1/stories/%s" % story, partial)
+        url = "%s/stories/%s" % (self._api.API_BASE, story)
+        self._urllib.AddHandler(url, partial)
         story = self._api.get_story(story)
         self.assertEquals(993441745509, story.id)
         self.assertTrue(story.target)
