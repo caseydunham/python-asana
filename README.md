@@ -1,5 +1,7 @@
 #Python Asana#
 
+[![Build Status](https://travis-ci.org/caseydunham/python-asana.png?branch=master)](https://travis-ci.org/caseydunham/python-asana)
+
 _A python wrapper around the Asana (asana.com) API_
 
 Authors:
