@@ -359,21 +359,13 @@ class Story(AsanaObject):
 
     def __init__(self, id=None, created_at=None, type=None, text=None,
                  created_by=None, target=None, source=None):
-        self.id = id
+        super(Story, self).__init__(id)
         self.created_at = created_at
         self.type = type
         self.text = text
         self.created_by = created_by
         self.target = target
         self.source = source
-
-    @property
-    def id(self):
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        self._id = value
 
     @property
     def created_at(self):
