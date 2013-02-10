@@ -21,7 +21,7 @@ SOFTWARE.
 """
 
 __author__ = ['casey.dunham@gmail.com', 'dvanliere@wikimedia.org']
-__version__ = '0.0.3-devel'
+__version__ = '0.0.3'
 
 
 import urllib
@@ -586,5 +586,6 @@ class Api(object):
         opener = self.urllib.build_opener()
         opener.addheaders = self._request_headers.items()
         return opener
+
 
 

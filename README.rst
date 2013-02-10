@@ -1,15 +1,13 @@
-#Python Asana#
+Python Asana
+============
 
-[![Build Status](https://travis-ci.org/caseydunham/python-asana.png?branch=master)](https://travis-ci.org/caseydunham/python-asana)
+.. image:: https://travis-ci.org/caseydunham/python-asana.png?branch=master
+        :target: https://travis-ci.org/caseydunham/python-asana
 
-_A python wrapper around the Asana (asana.com) API_
+A python wrapper around the Asana (asana.com) API
 
-Authors:
-
-Casey Dunham <casey.dunham@google.com>
-Diederik van Liere <dvanliere@wikimedia.org>
-
-##Introduction##
+Introduction
+------------
 
 This library provides a pure python interface for the Asana restful API.
 
@@ -23,11 +21,12 @@ With this initial version, the following functionality is working:
    * Retrieving tasks
    * Retrieving stories
 
-##Documentation##
-
+Documentation
+-------------
 Forthcoming.
 
-##Using##
+Using
+-----
 
 The library provides a python wrapper around the Asana API and data model.
 
@@ -36,6 +35,7 @@ The library provides a python wrapper around the Asana API and data model.
 The various API methods in the pyasana.API class return instances of the following
 classes
 
+.. code-block:: pycon
    pyasana.User
    pyasana.Workspace
    pyasana.Project
@@ -75,18 +75,5 @@ To retrieve a list of all tasks in a project:
 
 More examples forthcoming...
 
-##License##
-
-Copyright (c) 2012 Casey Dunham <casey.dunham@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+.. _`the repository`: http://github.com/caseydunham/python-asana
+.. _AUTHORS: https://github.com/caseydunham/python-asana/blob/master/AUTHORS.rst
