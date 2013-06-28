@@ -155,6 +155,27 @@ class ApiTest(unittest.TestCase):
         self.assertEquals(True, task.completed)
         self.assertEquals("2012-05-16T18:44:14.393Z", task.completed_at)
 
+    def testGetTaskTags(self):
+        taskid = 24816
+        partial = functools.partial(self._openTestData, "task_tags.json")
+        url = "%s/tasks/%s/tags" % (self._api.API_BASE, taskid)
+        self._urllib.AddHandler(url, partial)
+        tags = self._api.get_task_tags(taskid)
+        self.assertEqual(2, len(tags))
+        self.assertEqual("Rich Gold", tags[0].name)
+        self.assertEqual("Honey Shrimp", tags[1].name)
+
+    def testGetTag(self):
+        tagid = 5007
+        partial = functools.partial(self._openTestData, "tag_detail.json")
+        url = "%s/tags/%s" % (self._api.API_BASE, tagid)
+        self._urllib.AddHandler(url, partial)
+        tag = self._api.get_tag(tagid)
+        self.assertEqual(tagid, tag.id)
+        self.assertEqual("2013-06-28T11:55:33.333Z", tag.created_at)
+        self.assertEqual("Rich Gold", tag.name)
+        self.assertEqual(2, len(tag.followers))
+
     def testGetStories(self):
         task = 24816
         partial = functools.partial(self._openTestData, "stories.json")
