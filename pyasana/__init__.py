@@ -355,6 +355,75 @@ class Task(AsanaObject):
         return task
 
 
+class Tag(AsanaObject):
+
+    def __init__(self, id=None, created_at=None, followers=None, 
+                 name=None, notes=None, workspace=None):
+        super(Tag, self).__init__(id, name)
+        self.created_at = created_at
+        self.followers = followers
+        self.name = name
+        self.notes = notes
+        self.workspace = workspace
+
+    @property
+    def created_at(self):
+        return self._created_at
+
+    @created_at.setter
+    def created_at(self, value):
+        self._created_at = value
+
+    @property
+    def followers(self):
+        return self._followers
+
+    @followers.setter
+    def followers(self, value):
+        self._followers = value
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+
+    @property
+    def notes(self):
+        return self._notes
+
+    @notes.setter
+    def notes(self, value):
+        self._notes = value
+
+    @property
+    def workspace(self):
+        return self._workspace
+
+    @workspace.setter
+    def workspace(self, value):
+        self._workspace = value
+
+    @staticmethod
+    def new_from_json(data):
+        tag = Tag()
+        if "id" in data:
+            tag.id = data["id"]
+        if "name" in data:
+            tag.name = data["name"]
+        if "created_at" in data:
+            tag.created_at = data["created_at"]
+        if "notes" in data:
+            tag.notes = data["notes"]
+        if "followers" in data:
+            tag.followers = [User.new_from_json(x) for x in data["followers"]]
+        if "workspace" in data:
+            tag.workspace = Workspace.new_from_json(data["workspace"])
+        return tag
+
+
 class Story(AsanaObject):
 
     def __init__(self, id=None, created_at=None, type=None, text=None,
@@ -534,6 +603,18 @@ class Api(object):
         json_data = self._fetch_url(url)
         data = json.loads(json_data)
         return Task.new_from_json(data["data"])
+
+    def get_task_tags(self, taskid):
+        url = "%s/tasks/%s/tags" % (self.API_BASE, taskid)
+        json_data = self._fetch_url(url)
+        data = json.loads(json_data)
+        return [Tag.new_from_json(x) for x in data["data"]]
+
+    def get_tag(self, tagid):
+        url = "%s/tags/%s" % (self.API_BASE, tagid)
+        json_data = self._fetch_url(url)
+        data = json.loads(json_data)
+        return Tag.new_from_json(data["data"])
 
     def get_stories(self, taskid):
         url = "%s/tasks/%s/stories" % (self.API_BASE, taskid)
